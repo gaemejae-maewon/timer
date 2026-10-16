@@ -1,0 +1,10 @@
+﻿const { spawnSync } = require('node:child_process');
+const { existsSync } = require('node:fs');
+const path = require('node:path');
+const root = path.resolve(__dirname, '..');
+const env = { ...process.env };
+const nsis = path.join(root, '.build-tools', 'nsis');
+if (existsSync(path.join(nsis, 'Bin', 'makensis.exe'))) env.ELECTRON_BUILDER_NSIS_DIR = nsis;
+const result = spawnSync(process.execPath, [require.resolve('electron-builder/cli.js'), '--win', 'portable'], { cwd: root, env, stdio: 'inherit' });
+if (result.error) console.error(result.error);
+process.exit(result.status ?? 1);

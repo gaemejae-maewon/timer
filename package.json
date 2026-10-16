@@ -1,0 +1,49 @@
+{
+  "name": "focus-timer",
+  "version": "1.0.0",
+  "description": "A focused desktop countdown timer",
+  "author": "Timer",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build --base=./",
+    "preview": "vite preview --host 127.0.0.1",
+    "desktop": "npm run build && electron .",
+    "desktop:pack": "npm run build && electron-builder --win --dir",
+    "desktop:dist": "npm run desktop:pack",
+    "desktop:test": "npm run build && electron electron/smoke.cjs",
+    "desktop:portable": "npm run build && node scripts/portable.cjs"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "electron": "^44.7.2",
+    "electron-builder": "^26.15.3",
+    "vite": "^6.0.0"
+  },
+  "build": {
+    "appId": "com.onjeonhi.timer",
+    "productName": "Onjeonhi Timer",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": "portable",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "Onjeonhi-Timer-${version}.exe"
+    },
+    "electronDist": "node_modules/electron/dist"
+  }
+}
